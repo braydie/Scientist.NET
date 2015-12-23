@@ -12,14 +12,16 @@ namespace MyNamespace
 {
     public class MyClass
     {
-      public bool MyMethod(User User)
-      {
-        var experiment = new Experiment("widget-permissions");
-        experiment.Use<bool>(() => Model.CheckUser(User).Valid); // old way
-        experiment.Try<bool>(() => User.Can(Permission.Read, Model); // new way
+        private MyOtherClass Model;    
+    
+        public bool MyMethod(User User)
+        {
+            var experiment = new Experiment("widget-permissions");
+            experiment.Use<bool>(() => Model.CheckUser(User).Valid); // old way
+            experiment.Try<bool>(() => User.Can(Permission.Read, Model); // new way
         
-        return experiment.Run<bool>();    
-      }
+            return experiment.Run<bool>();    
+        }
     }
 }
 ```
