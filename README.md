@@ -32,10 +32,10 @@ Use `Use(..)` to wrap the existing original behaviour, and use `Try(..)` to wrap
 - Measures the duration of both behaviours
 - Swallows (but records) any exceptions raised in the `Try` block
 - Set a condition to filter calls to `Try`
+- Randomises order to execute `Try` and `Use` blocks
 
 Upcoming features (these already exist in the Ruby library):
 
-- Randomises order to execute `Try` and `Use` blocks
 - Compares results of `Try` and `Use` blocks
 - Publishes all the information gathered
 - Turn project into a NuGet package
