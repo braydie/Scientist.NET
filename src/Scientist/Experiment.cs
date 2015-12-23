@@ -38,20 +38,24 @@ namespace Scientist
             if(Rand.Next(0,2) == 0)
             {
                 Control = ObserveControl();
+                Result.Observations.Add(Control);
                 Candidate = ObserveCandidate();
+                if (Candidate != null)
+                {
+                    Result.Observations.Add(Candidate);
+                }
             }
             else
             {
                 Candidate = ObserveCandidate();
+                if (Candidate != null)
+                {
+                    Result.Observations.Add(Candidate);
+                }
                 Control = ObserveControl();
+                Result.Observations.Add(Control);
             }
             
-            Result.Observations.Add(Control);
-            if (Candidate != null)
-            {
-                Result.Observations.Add(Candidate);
-            }
-
             DoLogging(Result);
             return (T)Control.Result;
         }
