@@ -16,17 +16,17 @@ namespace MyNamespace
     
         public bool MyMethod(User User)
         {
-            var experiment = new Experiment("widget-permissions");
-            experiment.Use<bool>(() => Model.CheckUser(User).Valid); // old way
-            experiment.Try<bool>(() => User.Can(Permission.Read, Model); // new way
+            var experiment = new Experiment<bool>("widget-permissions");
+            experiment.Use(() => Model.CheckUser(User).Valid); // old way
+            experiment.Try(() => User.Can(Permission.Read, Model); // new way
         
-            return experiment.Run<bool>();    
+            return experiment.Run();    
         }
     }
 }
 ```
 
-Use `Use<T>(..)` to wrap the existing original behaviour, and use `Try<T>(..)` to wrap the new behaviour. `experiment.Run<T>();` will always return the result of the `Use` block, but it does a bunch of stuff behind the scenes:
+Use `Use(..)` to wrap the existing original behaviour, and use `Try(..)` to wrap the new behaviour. `experiment.Run();` will always return the result of the `Use` block, but it does a bunch of stuff behind the scenes:
 
 - It decides whether or not to run the `Try` block
 - Measures the duration of both behaviours
