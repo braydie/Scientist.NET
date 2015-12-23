@@ -1,30 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Scientist
 {
-    public class Experiment
+    public class Experiment<T> : BaseExperiment
     {
         private dynamic _Control;
         private dynamic _Candidate;
         private bool _RunIf;
 
-        public Experiment(string ExperimentName)
-        {
-            Name = ExperimentName;
+        public Experiment(string ExperimentName) 
+            : base(ExperimentName)
+        {            
             _RunIf = true;
         }
 
-        public string Name { get; private set; }
-        public int PercentageEnabled { get; set; }
-        public List<IResultPublisher> Publishers { get; set; } 
-
-        public void Use<T>(Func<T> Control)
+        public void Use(Func<T> Control)
         {
             _Control = Control;
         }
         
-        public void Try<T>(Func<T> Candidate)
+        public void Try(Func<T> Candidate)
         {
             _Candidate = Candidate;
         }
@@ -34,7 +29,7 @@ namespace Scientist
             _RunIf = RunIf;
         }
 
-        public T Run<T>()
+        public T Run()
         {
             var Result = new Result {Experiment = this};
             if (ExperimentShouldRun())
