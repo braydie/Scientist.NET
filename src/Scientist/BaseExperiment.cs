@@ -11,6 +11,7 @@ namespace Scientist
         internal BaseExperiment(string NameIn)
         {
             Name = NameIn;
+            Publishers = new List<IResultPublisher>();
         }
 
         public string Name { get; set; }
