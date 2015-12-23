@@ -4,8 +4,9 @@ namespace Scientist
 {
     public class Result
     {
-        public Result()
+        public Result(BaseExperiment ExperimentIn)
         {
+            Experiment = ExperimentIn;
             Observations = new List<Observation>();
         }
 

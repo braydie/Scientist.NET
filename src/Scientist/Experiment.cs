@@ -31,20 +31,47 @@ namespace Scientist
 
         public T Run()
         {
-            var Result = new Result {Experiment = this};
+            var Result = new Result(this);
+            Observation Candidate;
+            Observation Control;
+            var Rand = new Random();
+            if(Rand.Next(0,2) == 0)
+            {
+                Control = ObserveControl();
+                Candidate = ObserveCandidate();
+            }
+            else
+            {
+                Candidate = ObserveCandidate();
+                Control = ObserveControl();
+            }
+            
+            Result.Observations.Add(Control);
+            if (Candidate != null)
+            {
+                Result.Observations.Add(Candidate);
+            }
+
+            DoLogging(Result);
+            return (T)Control.Result;
+        }
+
+        private Observation ObserveCandidate()
+        {
+            Observation Candidate = null;
             if (ExperimentShouldRun())
             {
                 if (_RunIf)
-                {                    
-                    var Candidate = new Observation("candidate", _Candidate);
-                    Result.Observations.Add(Candidate);
+                {
+                    Candidate = new Observation("Candidate - " + this.Name, _Candidate);                    
                 }
             }
-            
-            var Control = new Observation("control", _Control);
-            Result.Observations.Add(Control);
-            DoLogging(Result);
-            return (T)Control.Result;
+            return Candidate;            
+        }
+
+        private Observation ObserveControl()
+        {
+            return new Observation("Control - " + this.Name, _Control);
         }
 
         private bool ExperimentShouldRun()
