@@ -36,3 +36,4 @@ Upcoming features (these already exist in the Ruby library):
 - Randomises order to execute `Try` and `Use` blocks
 - Compares results of `Try` and `Use` blocks
 - Publishes all the information gathered
+- Turn project into a NuGet package
