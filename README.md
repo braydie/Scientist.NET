@@ -36,6 +36,5 @@ Use `Use(..)` to wrap the existing original behaviour, and use `Try(..)` to wrap
 
 Upcoming features (these already exist in the Ruby library):
 
-- Compares results of `Try` and `Use` blocks
 - Publishes all the information gathered
 - Turn project into a NuGet package
