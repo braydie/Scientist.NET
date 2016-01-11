@@ -1,4 +1,5 @@
 ﻿using System;
+using Scientist.Exceptions;
 
 namespace Scientist
 {
@@ -7,6 +8,11 @@ namespace Scientist
         private dynamic _Control;
         private dynamic _Candidate;
         private bool _RunIf;
+
+        public Experiment() 
+            : this("Experiment")
+        {            
+        }
 
         public Experiment(string ExperimentName) 
             : base(ExperimentName)
@@ -30,7 +36,11 @@ namespace Scientist
         }
 
         public T Run()
-        {
+        {            
+            if ((Func<T>)_Control.GetType().ReflectedType == null)
+            {
+                throw new BehaviourMissingException(this, "Control");
+            }
             var Result = new Result(this);
             Observation Candidate;
             Observation Control;
@@ -67,7 +77,7 @@ namespace Scientist
             {
                 if (_RunIf)
                 {
-                    Candidate = new Observation("Candidate - " + this.Name, _Candidate);                    
+                    Candidate = new Observation(this, "Candidate", _Candidate);                    
                 }
             }
             return Candidate;            
@@ -75,7 +85,7 @@ namespace Scientist
 
         private Observation ObserveControl()
         {
-            return new Observation("Control - " + this.Name, _Control);
+            return new Observation(this, "Control", _Control);
         }
 
         private bool ExperimentShouldRun()
