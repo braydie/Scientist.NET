@@ -12,7 +12,7 @@ namespace MyNamespace
 {
     public class MyClass
     {
-        private MyOtherClass Model;    
+        private MyModel Model;    
     
         public bool MyMethod(User User)
         {
