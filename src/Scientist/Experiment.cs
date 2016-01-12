@@ -22,6 +22,10 @@ namespace Scientist
 
         public void Use(Func<T> Control)
         {
+            if(_Control != null)
+            {
+                throw new BehaviourNotUniqueException(this, "Control");
+            }
             _Control = Control;
         }
         

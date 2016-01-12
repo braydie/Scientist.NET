@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseExperiment.cs" />
+    <Compile Include="Exceptions\BadBehaviourException.cs" />
     <Compile Include="Exceptions\BehaviourMissingException.cs" />
+    <Compile Include="Exceptions\BehaviourNotUniqueException.cs" />
     <Compile Include="Experiment.cs" />
     <Compile Include="IResultPublisher.cs" />
     <Compile Include="Observation.cs" />

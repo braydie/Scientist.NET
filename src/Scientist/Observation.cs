@@ -1,5 +1,4 @@
 ﻿using System;
-using Scientist.Exceptions;
 
 namespace Scientist
 {

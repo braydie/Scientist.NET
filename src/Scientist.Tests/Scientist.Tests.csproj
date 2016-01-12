@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Experiment\ConstructorTests.cs" />
     <Compile Include="Experiment\RunTests.cs" />
+    <Compile Include="Experiment\UseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
