@@ -1,7 +1,9 @@
 # Scientist.NET
 A .NET interpretation of the Ruby library [Scientist](https://github.com/github/scientist), a library for carefully refactoring critical paths.
 
-## How do I sciene?
+![Build status](https://travis-ci.org/braydie/Scientist.NET.svg?branch=master)
+
+## How do I science?
 
 Let's pretend you're changing the way you handle permissions in a large web app. Tests can help guide your refactoring, but you really want to capture the current and refactored beahviours under load.
 
