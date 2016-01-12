@@ -12,7 +12,7 @@ namespace Scientist
             var Now = DateTime.Now;
             try
             {
-                Result = Block();                
+                Result = Block();
             }
             catch (Exception Ex)
             {

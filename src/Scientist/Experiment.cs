@@ -37,7 +37,7 @@ namespace Scientist
 
         public T Run()
         {            
-            if ((Func<T>)_Control.GetType().ReflectedType == null)
+            if (_Control == null)
             {
                 throw new BehaviourMissingException(this, "Control");
             }
