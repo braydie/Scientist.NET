@@ -1,7 +1,6 @@
 ﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 using Scientist.Exceptions;
 
 namespace Scientist.Tests.Experiment
@@ -14,7 +13,7 @@ namespace Scientist.Tests.Experiment
         [SetUp]
         public void Setup()
         {
-            _Sut = new Experiment<string>() { PercentageEnabled = 100 };
+            _Sut = new Experiment<string> { PercentageEnabled = 100 };
         }
 
         [Test]
