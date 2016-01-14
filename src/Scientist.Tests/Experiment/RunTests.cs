@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using FluentAssertions;
 using NUnit.Framework;
 using Scientist.Exceptions;
@@ -44,26 +45,41 @@ namespace Scientist.Tests.Experiment
         }
 
         [Test]
-        // This test has a small chance of failing because of the random nature of Run()
+        // This test ensures that tests do not always run "control" then "candidate"
+        // This is a hideous test...
         public void Run_ShufflesBehavioursBeforeRunning()
         {
-            string Last = null;
-            var LastCalledMethod = new List<string>();
+            string LastCalled = null;
+            var LastCalledMethodsInExperiments = new List<string>();
 
-            _Sut.Use(() => Last = "control");
-            _Sut.Try(() => Last = "candidate");
+            _Sut.Use(() => LastCalled = "control");
+            _Sut.Try(() => LastCalled = "candidate");
 
-            for (var i = 0; i < 5000; i++)
+            // Loop a few times so that we can see some variations in execution order
+            for (var i = 0; i < 2500; i++)
             {
                 _Sut.Run();
-                LastCalledMethod.Add(Last);                
+                // Test is running to fast for the experiment!
+                Thread.Sleep(1);
+                LastCalledMethodsInExperiments.Add(LastCalled);                
             }
-            LastCalledMethod.Distinct().Count().Should().BeGreaterThan(1);
+
+            var Result = ContainsShuffledBehaviours(LastCalledMethodsInExperiments);
+
+            Result.Should().BeTrue();
+
         }
         
         private static string ExceptionalBehaviour(string Name)
         {
             throw new Exception(Name);
+        }
+
+        private static bool ContainsShuffledBehaviours(IEnumerable<string> Behaviours)
+        {
+            var AllLastCalledMethods = string.Join(string.Empty, Behaviours);
+            var CombinationsOfMethodExecution = new[] {"controlcontrol", "candidatecandidate", "controlcandidate", "candidatecontrol"};
+            return CombinationsOfMethodExecution.All(m => AllLastCalledMethods.Contains(m));
         }
     }
 }
