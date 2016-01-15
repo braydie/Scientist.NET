@@ -25,5 +25,10 @@ namespace Scientist
         public double Duration { get; private set; }
         public Exception Exception { get; private set; }
         public dynamic Result { get; private set; }
+
+        public bool IsEquivalentTo(Observation Other)
+        {
+            return Other.Result == Result;
+        }
     }
 }
