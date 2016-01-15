@@ -28,7 +28,16 @@ namespace Scientist
 
         public bool IsEquivalentTo(Observation Other)
         {
-            return Other.Result == Result;
+            var BothRaisedExceptions = (Other.Exception != null && Exception != null);
+            var NeitherRaisedExceptions = (Other.Exception == null && Exception == null);
+
+            var ValuesAreEqual = Other.Result == Result;
+
+            var ExceptionsAreEquivalent = (BothRaisedExceptions &&
+                                           Other.Exception.GetType() == Exception.GetType() &&
+                                           Other.Exception.Message == Exception.Message);
+
+            return (NeitherRaisedExceptions && ValuesAreEqual) || (BothRaisedExceptions && ExceptionsAreEquivalent);
         }
     }
 }
