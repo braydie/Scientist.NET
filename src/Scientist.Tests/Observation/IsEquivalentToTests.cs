@@ -19,6 +19,18 @@ namespace Scientist.Tests.Observation
         }
 
         [Test]
+        public void ComparesValues_ValuesAreNotSame_ReturnsFalse()
+        {
+            dynamic DummyFunction = new Func<string>(() => "dummy result");
+            dynamic OtherDummyFunction = new Func<string>(() => "I do something else");
+
+            var Sut = new Scientist.Observation(null, "control", DummyFunction);
+            var Other = new Scientist.Observation(null, "other", OtherDummyFunction);
+
+            Sut.IsEquivalentTo(Other).Should().BeFalse();
+        }
+        
+        [Test]
         public void BothRaisedExceptions_ExceptionsAreSameTypeAndContainSameMessage()
         {
             dynamic ExceptionalDummyFunction = new Func<string>(() => ExceptionalBehaviour(new ApplicationException("this is a test")));
@@ -52,7 +64,7 @@ namespace Scientist.Tests.Observation
 
             Sut.IsEquivalentTo(Other).Should().BeFalse();
         }
-
+        
         private string ExceptionalBehaviour(Exception ExceptionToThrow)
         {
             throw ExceptionToThrow;
