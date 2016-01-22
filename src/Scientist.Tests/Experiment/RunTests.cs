@@ -21,14 +21,14 @@ namespace Scientist.Tests.Experiment
 
         [Test]
         public void Run_NoControlSpecified_ThrowsBehaviourMissingException()
-        {            
+        {
             Action Act = () => _Sut.Run();
-            Act.ShouldThrow<BehaviourMissingException>().Where(e=> e.Message.Equals("Experiment missing control behaviour", StringComparison.InvariantCultureIgnoreCase));
+            Act.ShouldThrow<BehaviourMissingException>().Where(e => e.Message.Equals("Experiment missing control behaviour", StringComparison.InvariantCultureIgnoreCase));
         }
 
         [Test]
         public void Run_HasControl_ReturnsControl()
-        {            
+        {
             _Sut.Use(() => "control");
             var Actual = _Sut.Run();
             Actual.Should().Be("control");
@@ -61,15 +61,39 @@ namespace Scientist.Tests.Experiment
                 _Sut.Run();
                 // Test is running to fast for the experiment!
                 Thread.Sleep(1);
-                LastCalledMethodsInExperiments.Add(LastCalled);                
+                LastCalledMethodsInExperiments.Add(LastCalled);
             }
 
             var Result = ContainsShuffledBehaviours(LastCalledMethodsInExperiments);
 
             Result.Should().BeTrue();
+        }
+
+        [Test]
+        [TestCase(100)]
+        [TestCase(70)]
+        [TestCase(50)]
+        [TestCase(30)]
+        [TestCase(10)]
+        public void Run_PercentageOfCandidatesRunIsCloseToPercentageEnabled(int PercentageEnabled)
+        {
+            const int EXPERIMENT_COUNT = 1000;
+            var Sut = new Experiment<int>();
+            int NumberOfTimesTryCalled = 0;
+            Sut.PercentageEnabled = PercentageEnabled;
+            Sut.Try(() => NumberOfTimesTryCalled++);
+            Sut.Use(() => 1000);
+
+            for (var i = 0; i < EXPERIMENT_COUNT; i++)
+            {                
+                Thread.Sleep(1);
+                Sut.Run();
+            }
+            double ActualPercentCalled = (NumberOfTimesTryCalled / (double)EXPERIMENT_COUNT * 100);         
+            ActualPercentCalled.ShouldBeNear(PercentageEnabled);            
 
         }
-        
+
         private static string ExceptionalBehaviour(string Name)
         {
             throw new Exception(Name);
@@ -78,7 +102,7 @@ namespace Scientist.Tests.Experiment
         private static bool ContainsShuffledBehaviours(IEnumerable<string> Behaviours)
         {
             var AllLastCalledMethods = string.Join(string.Empty, Behaviours);
-            var CombinationsOfMethodExecution = new[] {"controlcontrol", "candidatecandidate", "controlcandidate", "candidatecontrol"};
+            var CombinationsOfMethodExecution = new[] { "controlcontrol", "candidatecandidate", "controlcandidate", "candidatecontrol" };
             return CombinationsOfMethodExecution.All(m => AllLastCalledMethods.Contains(m));
         }
     }

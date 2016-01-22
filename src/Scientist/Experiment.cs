@@ -25,7 +25,7 @@ namespace Scientist
         }
         
         public void Try(Func<T> CandidateIn)
-        {
+        {            
             Candidate = CandidateIn;
         }
         
