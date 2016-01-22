@@ -17,5 +17,13 @@ namespace Scientist
         public string Name { get; set; }
         public int PercentageEnabled { get; set; }
         public List<IResultPublisher> Publishers { get; set; } 
+        
+        internal void Publish(Result Result)
+        {
+            foreach (var ResultPublisher in Publishers)
+            {
+                ResultPublisher.Publish(Result);
+            }
+        }
     }
 }

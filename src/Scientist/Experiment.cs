@@ -69,8 +69,8 @@ namespace Scientist
                 Control = ObserveControl();
                 Result.Observations.Add(Control);
             }
-            
-            DoLogging(Result);
+
+            Publish(Result);
             return (T)Control.Result;
         }
 
@@ -96,14 +96,6 @@ namespace Scientist
         {
             var Rand = new Random();
             return PercentageEnabled > 0 && Rand.Next(100) < PercentageEnabled;
-        }
-
-        private void DoLogging(Result Result)
-        {
-            foreach (var ResultPublisher in Publishers)
-            {
-                ResultPublisher.Publish(Result);
-            }
         }
     }    
 }
